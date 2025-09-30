@@ -5,8 +5,8 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
+from environs import Env
 
-bot = Bot(token="TOKEN")
 dp = Dispatcher()
 
 def init_db():
@@ -357,6 +357,9 @@ async def cmd_mydata(message: Message):
 
 # --- Запуск ---
 async def main():
+    env = Env()
+    env.read_env(".env")
+    bot = Bot(token=env('TOKEN'))
     init_db()
     await dp.start_polling(bot)
 
